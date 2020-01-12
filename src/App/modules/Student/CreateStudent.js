@@ -3,65 +3,66 @@ import {Modal} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
 
-class EditStudent extends React.Component {
+class CreateStudent extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          show: props.showEdit,
-          student: props.student,
-          lastName: props.student.lastName,
-          firstName: props.student.firstName,
-          session: props.student.session,
-          mail: props.student.mail,
-          id:props.student.id
+          show: props.showCreate,
+          lastName: null,
+          firstName: null,
+          session: null,
+          mail: null,
+          sessions: []
         };
       }
+
+      async componentDidMount() {
+        const json = await fetch('https://localhost:8443/sessions');
+        const response = await json.json();
+        const sessions = response['hydra:member'];
+        this.setState({sessions});
+        console.log({sessions});
+  }
 
       handleClose=()=> {
           this.setState({show: false});
           return (this.state.show);
       }
 
-      onSubmit=()=> {
-          let url = "https://localhost:8443/students/"+this.state.id ;
-          fetch(url, 
+      handleChange = (e) =>{
+        this.setState({ session: "/sessions/"+e.target.value });
+      }
+
+    onSubmit() {
+           fetch("https://localhost:8443/students", 
             {
-              // headers: {
-              //   'Accept': 'application/json',
-              //   'Content-Type': 'application/json'
-              // },
-              method: 'PATCH',                                                              
-              body: 
-              JSON.stringify( 
-                { firstName: this.state.firstName } 
+                method: 'POST',
+                headers: {
+                 'Content-Type': 'application/json'
+                },
+                body: 
+                    JSON.stringify( 
+                        {
+                            "firstName": this.state.firstName, 
+                            "lastName": this.state.lastName,
+                            "mail": this.state.mail,
+                            "session": this.state.session
+                        }
                 )                                        
             })
-              //method: 'patch',
-              // body:
-              //   "lastName": "string",
-              //   "firstName": "string",
-              //   "session": "string",
-              //   "mail": "string",
-              //   "avatar": "string",
-              //   "projects": [
-              //       "string"
-              //   ],
-              //   "jobCard": "string"
-            .then(resp => resp.json())
-            // .then((data) =>
-            //   this.setState({student}))
+            .then(resp => 
+                resp.json());
           }
 
       render() {
          const { show } = this.state;
-         const { student } = this.state;
-
+        const { sessions } = this.state;
       return (
               <>
               <Modal show={show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Edit Student</Modal.Title>
+                  <Modal.Title>Create Student</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -70,7 +71,7 @@ class EditStudent extends React.Component {
                       <Form.Label>LastName</Form.Label>
                       <Form.Control 
                         type="lastname" 
-                        defaultValue={student.lastName}
+                        placeholder="LastName"
                         onChange = {(event) => this.setState({lastName: event.target.value })}/>
                       <Form.Text className="text-muted">
                           Enter a lastName
@@ -81,7 +82,7 @@ class EditStudent extends React.Component {
                       <Form.Label>FirstName</Form.Label>
                       <Form.Control 
                         type="firstname" 
-                        defaultValue={student.firstName}
+                        placeholder="FirstName"
                         onChange = {(event) => this.setState({firstName: event.target.value })}
                         />
                       <Form.Text className="text-muted">
@@ -91,19 +92,25 @@ class EditStudent extends React.Component {
 
                     <Form.Group controlId="formBasicEmail">
                       <Form.Label>Email address</Form.Label>
-                      <Form.Control type="email" defaultValue={student.mail}/>
+                      <Form.Control 
+                        type="email" 
+                        placeholder="email"
+                        onChange = {(event) => this.setState({mail: event.target.value })}
+                        />
                       <Form.Text className="text-muted">
                           Enter an email.
                       </Form.Text>
                     </Form.Group>
 
-                    <Form.Group controlId="formBasicPassword">
-                      <Form.Label>Password</Form.Label>
-                      <Form.Control type="password" placeholder="Password" />
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicCheckbox">
-                      <Form.Check type="checkbox" label="Check me out" />
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                        <Form.Label>Session choice</Form.Label>
+                            <Form.Control as="select" className="mb-3" onChange={this.handleChange}>
+                            {sessions.map((session, i) =>
+                                    <React.Fragment key={session.id}>
+                                      <option value= {session.id}>{session.name}</option>
+                                    </React.Fragment>
+                                  )}
+                            </Form.Control>
                     </Form.Group>
 
                     <Button variant="primary" type="submit" onClick={()=>this.onSubmit()}>
@@ -119,4 +126,4 @@ class EditStudent extends React.Component {
         }
   }
 
-export default EditStudent;
+export default CreateStudent;

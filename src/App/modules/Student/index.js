@@ -1,9 +1,8 @@
 import React from 'react';
-import {Row, Col, Card, Table, Tabs, Tab} from 'react-bootstrap';
+import {Row, Col, Card, Table} from 'react-bootstrap';
 import EditStudent from "./EditStudent";
-
+import CreateStudent from "./CreateStudent";
 import Aux from "../../../hoc/_Aux";
-import DEMO from "../../../store/constant";
 
 class Student extends React.Component {
     constructor(props) {
@@ -11,6 +10,7 @@ class Student extends React.Component {
         this.state = {
           datas:[],
           showEdit: false,
+          showCreate: false,
           student: null,
         };
       }
@@ -29,10 +29,35 @@ class Student extends React.Component {
   }
 
   onEdit=(data)=> {
-    console.log('hello');
+    console.log('edit');
       this.setState({student: data, showEdit: true});
   }
 
+  onCreate=()=> {
+    console.log('create');
+      this.setState({student: null, showCreate: true});
+  }
+
+  // onSubmit() {
+  //   console.log ('hello there');
+  //   const resp = fetch("https://localhost:8443/students", 
+  //    {
+  //        method: 'POST',
+  //        headers: {
+  //         'Content-Type': 'application/json'
+  //        },
+  //        body: 
+  //            JSON.stringify( 
+  //                {
+  //                    "firstName": "here", 
+  //                    "lastName": "works",
+  //                    "mail": "helloworks@mail.com",
+  //                    "session": "/sessions/1"
+  //                }
+  //        )                                        
+  //    });
+  //    //const json = resp.json();
+  //   }
 
   render() {
     const { datas } = this.state;
@@ -42,7 +67,9 @@ class Student extends React.Component {
                   <Col>
                       <Card>
                           <Card.Header>
-                              <Card.Title as="h5">Sudents List</Card.Title>
+                              <Card.Title as="h5">Students List</Card.Title>
+                              <button type="button" className="btn btn-primary" onClick={()=>this.onCreate()}>Create</button>
+                              {/* <button type="button" className="btn btn-primary" onClick={()=>this.onSubmit()}>Testcreate</button> */}
                           </Card.Header>
                           <Card.Body>
                               <Table responsive hover>
@@ -79,8 +106,9 @@ class Student extends React.Component {
                   </Col>
               </Row>
               { this.state.showEdit ? <EditStudent student={this.state.student} showEdit={this.state.showEdit}></EditStudent> : null }
+              { this.state.showCreate ? <CreateStudent student={null} showCreate={this.state.showCreate}></CreateStudent> : null }
 
-              // <EditStudent student={this.student} showEdit></EditStudent>
+               {/* <EditStudent student={this.student} showEdit></EditStudent> */}
           </Aux>
       );
   }
