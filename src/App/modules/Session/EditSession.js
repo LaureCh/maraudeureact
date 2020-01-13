@@ -3,18 +3,17 @@ import {Modal} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
 
-class EditStudent extends React.Component {
+class EditSession extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
           show: props.showEdit,
-          student: props.student,
-          lastName: props.student.lastName,
-          firstName: props.student.firstName,
-          session: props.student.session,
-          mail: props.student.mail,
-          id: props.student.id
+          session: props.session,
+          name: props.session.name,
+          startDate: props.session.startDate,
+          endDate: props.session.endDate,
+          id: props.session.id
         };
       }
 
@@ -24,7 +23,7 @@ class EditStudent extends React.Component {
       }
 
       onSubmit() {
-          fetch("https://localhost:8443/students/"+this.state.id, 
+          fetch("https://localhost:8443/sessions/"+this.state.id, 
             {
               method: 'PATCH',
               headers: {
@@ -33,9 +32,9 @@ class EditStudent extends React.Component {
               body: 
                 JSON.stringify( 
                   {  
-                    firstName: this.state.firstName,
-                    lastName: this.state.lastName,
-                    mail: this.state.mail
+                    name: this.state.firstName,
+                    startDate: this.state.startDate,
+                    endDate: this.state.endDate
                   } 
                 )                                        
             })
@@ -43,49 +42,49 @@ class EditStudent extends React.Component {
 
       render() {
          const { show } = this.state;
-         const { student } = this.state;
+         const { session } = this.state;
 
       return (
               <>
               <Modal show={show} onHide={this.handleClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Edit Student</Modal.Title>
+                  <Modal.Title>Edit Session</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                   <Form>
                     <Form.Group controlId="formBasicText">
-                      <Form.Label>LastName</Form.Label>
+                      <Form.Label>Name</Form.Label>
                       <Form.Control 
-                        type="lastname" 
-                        defaultValue={student.lastName}
-                        onChange = {(event) => this.setState({lastName: event.target.value })}/>
+                        type="name" 
+                        defaultValue={session.name}
+                        onChange = {(event) => this.setState({name: event.target.value })}/>
                       <Form.Text className="text-muted">
-                          Enter a lastName
+                          Enter a name
                       </Form.Text>
                     </Form.Group>
 
-                    <Form.Group controlId="formBasicText">
-                      <Form.Label>FirstName</Form.Label>
+                    <Form.Group controlId="formBasicDate">
+                      <Form.Label>Start Date</Form.Label>
                       <Form.Control 
-                        type="firstname" 
-                        defaultValue={student.firstName}
-                        onChange = {(event) => this.setState({firstName: event.target.value })}
+                        type="startDate" 
+                        defaultValue={session.name}
+                        onChange = {(event) => this.setState({name: event.target.value })}
                         />
                       <Form.Text className="text-muted">
-                          Enter a firstName
+                          Enter a name
                       </Form.Text>
                     </Form.Group>
 
-                    <Form.Group controlId="formBasicEmail">
-                      <Form.Label>Email address</Form.Label>
+                    <Form.Group controlId="formBasicDate">
+                      <Form.Label>End Date</Form.Label>
                       <Form.Control 
-                        type="email" 
-                        defaultValue={student.mail}
-                        onChange = {(event) => this.setState({firstName: event.target.value })}
+                        type="endDate" 
+                        defaultValue={session.endDate}
+                        onChange = {(event) => this.setState({endDate: event.target.value })}
                         />
                       <Form.Text className="text-muted">
-                          Enter an email.
+                          Enter an end Date.
                       </Form.Text>
                     </Form.Group>
 
@@ -102,4 +101,4 @@ class EditStudent extends React.Component {
         }
   }
 
-export default EditStudent;
+export default EditSession;

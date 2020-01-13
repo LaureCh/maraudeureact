@@ -44,15 +44,16 @@ class CreateStudent extends React.Component {
                 body: 
                     JSON.stringify( 
                         {
-                            "firstName": this.state.firstName, 
-                            "lastName": this.state.lastName,
-                            "mail": this.state.mail,
-                            "session": this.state.session
+                            firstName: this.state.firstName, 
+                            lastName: this.state.lastName,
+                            mail: this.state.mail,
+                            session: this.state.session
                         }
                 )                                        
-            })
-            .then(resp => 
-                resp.json());
+            }
+            .catch())
+            // .then(resp => 
+            //     resp.json());
           }
 
       render() {

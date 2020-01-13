@@ -1,11 +1,11 @@
   import React from 'react';
   import {Row, Col, Card, Table} from 'react-bootstrap';
-  import EditStudent from "./EditStudent";
-  import CreateStudent from "./CreateStudent";
-  import DeleteStudent from "./DeleteStudent";
+  import EditSession from "./EditSession";
+  import CreateSession from "./CreateSession";
+  import DeleteSession from "./DeleteSession";
   import Aux from "../../../hoc/_Aux";
 
-  class Student extends React.Component {
+  class Session extends React.Component {
       constructor(props) {
           super(props);
           this.state = {
@@ -13,23 +13,16 @@
             showEdit: false,
             showCreate: false,
             showDelete: false,
-            student: null,
+            session: null,
           };
         }
 
       async componentDidMount() {
-          const json = await fetch('https://localhost:8443/students');
+          const json = await fetch('https://localhost:8443/sessions');
           const response = await json.json();
           const datas = response['hydra:member'];
-            for (const data of datas) {
-              const resp = await fetch('https://localhost:8443'+data.session);
-
-              data.session = (await resp.json()).name;
-            }
-          
-          const sortedDatas = datas.sort(this.compareValues('lastName', 'asc'));
-          console.log('sorted');
-          console.log(sortedDatas);
+        
+          const sortedDatas = datas.sort(this.compareValues('name', 'asc'));
           this.setState({datas: sortedDatas})
       }
 
@@ -56,37 +49,16 @@
     }
 
     onEdit=(data)=> {
-      console.log('edit');
-        this.setState({student: data, showEdit: true});
+        this.setState({session: data, showEdit: true});
     }
 
     onCreate=()=> {
-      console.log('create');
-        this.setState({student: null, showCreate: true});
+        this.setState({session: null, showCreate: true});
     }
 
     onDelete=(data)=> {
-      console.log('delete');
-      this.setState({student: data, showDelete: true});
+      this.setState({session: data, showDelete: true});
     }
-
-    // onSubmit() {
-    //   console.log ('hello there');
-    //   const resp = fetch("https://localhost:8443/students/3", 
-    //    {
-    //        method: 'PATCH',
-    //        headers: {
-    //         'Content-Type': 'application/merge-patch+json'
-    //        },
-    //        body: 
-    //            JSON.stringify( 
-    //                {
-    //                    firstName: "testfirstname"
-    //                }
-    //        )                                        
-    //    });
-    //    //const json = resp.json();
-    //   }
 
     render() {
       const { datas } = this.state;
@@ -96,19 +68,18 @@
                     <Col>
                         <Card>
                             <Card.Header>
-                                <Card.Title as="h5">Students List</Card.Title>
+                                <Card.Title as="h5">Sessions List</Card.Title>
                                 <button type="button" className="btn btn-primary" onClick={()=>this.onCreate()}>Create</button>
-                                {/* <button type="button" className="btn btn-primary" onClick={()=>this.onSubmit()}>Testcreate</button>  */}
                             </Card.Header>
                             <Card.Body>
                                 <Table responsive hover>
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Last Name</th>
-                                        <th>First Name</th>
-                                        <th>Mail</th>
-                                        <th>Session</th>
+                                        <th>Name</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        {/* <th>List of Students ?(with link?)</th> */}
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -119,10 +90,10 @@
                                       <React.Fragment key={data.id}>
                                         <tr>
                                         <th scope="row">{i+1}</th>
-                                        <td>{data.lastName}</td>
-                                        <td>{data.firstName}</td>
-                                        <td>{data.mail}</td>
-                                        <td>{data.session}</td>
+                                        <td>{data.name}</td>
+                                        <td>{data.startDate}</td>
+                                        <td>{data.endDate}</td>
+                                        {/* <td>{data.students}</td> */}
                                         <td onClick={()=>this.onEdit(data)}> <i className="feather icon-edit"></i></td>
                                         <td onClick={()=>this.onDelete(data)}> <i className="feather icon-trash-2"></i></td>
                                         </tr>
@@ -134,11 +105,9 @@
                         </Card>
                     </Col>
                 </Row>
-                { this.state.showEdit ? <EditStudent student={this.state.student} showEdit={this.state.showEdit}></EditStudent> : null }
-                { this.state.showCreate ? <CreateStudent student={null} showCreate={this.state.showCreate}></CreateStudent> : null }
-                { this.state.showDelete ? <DeleteStudent student={this.state.student} showDelete={this.state.showDelete}></DeleteStudent> : null }
-
-                {/* <EditStudent student={this.student} showEdit></EditStudent> */}
+                { this.state.showEdit ? <EditSession session={this.state.session} showEdit={this.state.showEdit}></EditSession> : null }
+                { this.state.showCreate ? <CreateSession session={null} showCreate={this.state.showCreate}></CreateSession> : null }
+                { this.state.showDelete ? <DeleteSession session={this.state.session} showDelete={this.state.showDelete}></DeleteSession> : null }
             </Aux>
         );
     }
@@ -146,4 +115,4 @@
 
 
 
-  export default Student;
+  export default Session;

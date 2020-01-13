@@ -16,6 +16,21 @@ export default {
           ]
         },
         {
+            id: 'sessions',
+            title: 'Sessions',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'list',
+                    title: 'List',
+                    type: 'item',
+                    url: '/sessions',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
+        {
             id: 'navigation',
             title: 'Navigation',
             type: 'group',
