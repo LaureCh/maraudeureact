@@ -31,6 +31,51 @@ export default {
             ]
         },
         {
+            id: 'projects',
+            title: 'Projects',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'list',
+                    title: 'List',
+                    type: 'item',
+                    url: '/projects',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
+        {
+            id: 'jobcards',
+            title: 'Jobcards',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'list',
+                    title: 'List',
+                    type: 'item',
+                    url: '/jobcards',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
+        {
+            id: 'internships',
+            title: 'Internships',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'list',
+                    title: 'List',
+                    type: 'item',
+                    url: '/internships',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
+        {
             id: 'navigation',
             title: 'Navigation',
             type: 'group',

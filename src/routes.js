@@ -13,6 +13,18 @@ const Sessions = React.lazy(
   () => import('./App/modules/Session/')
 );
 
+const Projects = React.lazy(
+  () => import('./App/modules/Project/')
+);
+
+const Internships = React.lazy(
+  () => import('./App/modules/Internship/')
+);
+
+const Jobcards = React.lazy(
+  () => import('./App/modules/Jobcard/')
+);
+
 const DashboardDefault = React.lazy(() => import('./Demo/Dashboard/Default'));
 
 const UIBasicButton = React.lazy(() => import('./Demo/UIElements/Basic/Button'));
@@ -35,6 +47,9 @@ const OtherSamplePage = React.lazy(() => import('./Demo/Other/SamplePage'));
 const OtherDocs = React.lazy(() => import('./Demo/Other/Docs'));
 
 const routes = [
+    { path: '/jobcards', exact: true, name: 'Jobcards', component: Jobcards },
+    { path: '/internships', exact: true, name: 'Internships', component: Internships },
+    { path: '/projects', exact: true, name: 'Projects', component: Projects },
     { path: '/sessions', exact: true, name: 'Sessions', component: Sessions },
     { path: '/students', exact: true, name: 'Students', component: Students },
     { path: '/dashboard/default', exact: true, name: 'Default', component: DashboardDefault },

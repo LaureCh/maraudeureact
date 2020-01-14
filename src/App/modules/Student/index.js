@@ -28,8 +28,7 @@
             }
           
           const sortedDatas = datas.sort(this.compareValues('lastName', 'asc'));
-          console.log('sorted');
-          console.log(sortedDatas);
+        
           this.setState({datas: sortedDatas})
       }
 

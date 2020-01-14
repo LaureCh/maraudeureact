@@ -54,8 +54,8 @@
 
         render() {
           const { show } = this.state;
-          const { sessions } = this.state;
-        return(
+
+          return(
                 <>
                 <Modal show={show} onHide={this.handleClose}>
                   <Modal.Header closeButton>
